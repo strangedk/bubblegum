@@ -2,8 +2,8 @@ import * as PIXI from 'pixi.js';
 import Game from "./Game";
 
 const options: object = {
-  width: 800,
-  height: 600,
+  width: 1920,
+  height: 829,
   antialias: true,
   transparent: true,
 };

@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24bf3215-317a-49ee-a1f7-46be7723e795" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/assets/pixi.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/resources/ResourceList.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/ResourceList.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/GameScreen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/GameScreen.ts" afterDir="false" />
     </list>
@@ -20,9 +21,11 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="ts.external.directory.path" value="D:\mine\wsa\bubblegum\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -34,7 +37,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1606663937982</updated>
-      <workItem from="1606663941924" duration="2426000" />
+      <workItem from="1606663941924" duration="6375000" />
+      <workItem from="1606686575621" duration="7731000" />
     </task>
     <servers />
   </component>
