@@ -5,8 +5,8 @@ class ResourceList {
     static ACTION_FORM_1 = '../assets/action/form-1.png';
     static ACTION_FORM_2 = '../assets/action/form-2.png';
     static ACTION_FORM_3 = '../assets/action/form-3.png';
-    static ACTION_GLAZE_ON = '../assets/action/glaze-off.png';
-    static ACTION_GLAZE_OFF = '../assets/action/glaze-on.png';
+    static ACTION_GLAZE_ON = '../assets/action/glaze-on.png';
+    static ACTION_GLAZE_OFF = '../assets/action/glaze-off.png';
     static ACTION_PACKAGE_1 = '../assets/action/package-1.png';
     static ACTION_PACKAGE_2 = '../assets/action/package-2.png';
     static ACTION_PACKAGE_3 = '../assets/action/package-3.png';

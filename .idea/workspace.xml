@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="24bf3215-317a-49ee-a1f7-46be7723e795" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/common/SpriteInteractive.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/resources/ResourceList.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/ResourceList.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/GameScreen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/GameScreen.ts" afterDir="false" />
     </list>
@@ -12,10 +32,20 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1kyDSVU8cqMAhhdCnich8WXH3SX" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -38,11 +68,34 @@
       <option name="presentableId" value="Default" />
       <updated>1606663937982</updated>
       <workItem from="1606663941924" duration="6375000" />
-      <workItem from="1606686575621" duration="7731000" />
+      <workItem from="1606686575621" duration="10234000" />
+      <workItem from="1606725069047" duration="73000" />
+      <workItem from="1606754343208" duration="12130000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="500" y="184" key="FileChooserDialogImpl" timestamp="1606767899461">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="500" y="184" key="FileChooserDialogImpl/-1366.0.1366.728/0.0.1440.860@0.0.1440.860" timestamp="1606767899461" />
+    <state x="427" y="163" width="585" height="534" key="find.popup" timestamp="1606765646335">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="427" y="163" width="585" height="534" key="find.popup/-1366.0.1366.728/0.0.1440.860@0.0.1440.860" timestamp="1606765646335" />
   </component>
 </project>
