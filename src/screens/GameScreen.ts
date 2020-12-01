@@ -7,6 +7,7 @@ import ActionValue from "../enums/ActionValue";
 import Conveyor from "../components/Conveyor";
 import ResourceService from "../resources/ResourceService";
 import ConveyorLineWheels from "../components/ConveyorLineWheels";
+import Drop from "../components/Drop";
 
 class GameScreen extends PIXI.Container {
     // region #Resources
@@ -44,23 +45,27 @@ class GameScreen extends PIXI.Container {
     private readonly conveyorTable: SpriteCommon = new SpriteCommon(ResourceList.CONVEYOR_TABLE);
     // Conveyor light
     private readonly conveyorLight: SpriteCommon = new SpriteCommon(ResourceList.CONVEYOR_LIGHT);
-
-    private readonly dropGray: SpriteCommon = new SpriteCommon(ResourceList.DROP_GRAY);
-    private readonly dropGreen: SpriteCommon = new SpriteCommon(ResourceList.DROP_GREEN);
-    private readonly dropPurple: SpriteCommon = new SpriteCommon(ResourceList.DROP_PURPLE);
+    // Drop
+    private readonly dropForm: Drop = new Drop(ActionValue.COLOR_GRAY);
+    private readonly dropGlaze: Drop = new Drop(ActionValue.COLOR_GRAY);
+    private readonly dropColor: Drop = new Drop();
+    // Taste
     private readonly tasteBubble: SpriteCommon = new SpriteCommon(ResourceList.TASTE_BUBBLE);
     private readonly tasteMint: SpriteCommon = new SpriteCommon(ResourceList.TASTE_MINT);
     private readonly tasteStrawBanana: SpriteCommon = new SpriteCommon(ResourceList.TASTE_STRAW_BANANA);
     private readonly tasteWatermelon: SpriteCommon = new SpriteCommon(ResourceList.TASTE_WATERMELON);
+    // Trash
     private readonly trashOver: SpriteCommon = new SpriteCommon(ResourceList.TRASH_OVER);
     private readonly trashUnder: SpriteCommon = new SpriteCommon(ResourceList.TRASH_UNDER);
+    // Background
     private readonly background: SpriteCommon = new SpriteCommon(ResourceList.BACKGROUND);
+    // Machines
     private readonly machines: SpriteCommon = new SpriteCommon(ResourceList.MACHINES);
-
+    // Conveyor line
     private readonly conveyorLine: Conveyor = new Conveyor(ResourceService.getTexture(ResourceList.CONVEYOR_LINE));
+    // Conveyor wheels
     private readonly wheels: ConveyorLineWheels = new ConveyorLineWheels();
     // endregion
-
 
     // region #Steps logic
     private _currentActionStep!: ActionType;
@@ -167,13 +172,11 @@ class GameScreen extends PIXI.Container {
     private addElements = () => {
         // Background
         this.addChild(this.background);
-        // Top machines
-        this.addChild(this.machines);
-
         // Blue table background
         this.addChild(this.conveyorTable);
 
         this.addChild(this.actionsWrapper);
+        // Actions wrapper for wrappers
         this.actionsWrapper.addChild(this.actionsFormWrapper);
         this.actionsWrapper.addChild(this.actionsColorWrapper);
         this.actionsWrapper.addChild(this.actionsTasteWrapper);
@@ -183,19 +186,19 @@ class GameScreen extends PIXI.Container {
         this.actionsFormWrapper.addChild(this.actionForm1);
         this.actionsFormWrapper.addChild(this.actionForm2);
         this.actionsFormWrapper.addChild(this.actionForm3);
-
+        // Color wrapper
         this.actionsColorWrapper.addChild(this.actionColorGray);
         this.actionsColorWrapper.addChild(this.actionColorGreen);
         this.actionsColorWrapper.addChild(this.actionColorPurple);
-
+        // Taste wrapper
         this.actionsTasteWrapper.addChild(this.actionTasteBubble);
         this.actionsTasteWrapper.addChild(this.actionTasteMint);
         this.actionsTasteWrapper.addChild(this.actionTasteStrawBanana);
         this.actionsTasteWrapper.addChild(this.actionTasteWatermelon);
-
+        // Glaze wrapper
         this.actionsGlazeWrapper.addChild(this.actionGlazeOn);
         this.actionsGlazeWrapper.addChild(this.actionGlazeOff);
-
+        // Package wrapper
         this.actionsPackageWrapper.addChild(this.actionPackage1);
         this.actionsPackageWrapper.addChild(this.actionPackage2);
         this.actionsPackageWrapper.addChild(this.actionPackage3);
@@ -212,16 +215,19 @@ class GameScreen extends PIXI.Container {
         // Front side
         this.addChild(this.conveyorConv1);
 
+        // Drop
+        this.addChild(this.dropForm);
+        this.addChild(this.dropColor);
+        this.addChild(this.dropGlaze);
+        // Top machines
+        this.addChild(this.machines);
+
         this.addChild(this.conveyorLevel1);
         this.addChild(this.conveyorLevel2);
         this.addChild(this.conveyorLevel3);
         this.addChild(this.conveyorLevel4);
 
         this.addChild(this.conveyorLight);
-
-        this.addChild(this.dropGray);
-        this.addChild(this.dropGreen);
-        this.addChild(this.dropPurple);
 
         this.addChild(this.tasteBubble);
         this.addChild(this.tasteMint);
@@ -259,6 +265,9 @@ class GameScreen extends PIXI.Container {
             machines,
             actionsWrapper,
             wheels,
+            dropForm,
+            dropColor,
+            dropGlaze,
         } = this;
 
         const W = app.renderer.width;
@@ -284,6 +293,20 @@ class GameScreen extends PIXI.Container {
         conveyorLineUp.anchor.set(1, 1);
         conveyorLineUp.x = W - 8;
         conveyorLineUp.y = H / 2 + 64;
+
+        const dropTop = 300;
+        dropForm.x = 630;
+        dropForm.y = dropTop;
+        setInterval(() => dropForm.show(), 6000);
+
+        dropColor.x = 900;
+        dropColor.y = dropTop;
+        setInterval(() => dropColor.show(ActionValue.COLOR_GREEN), 5000)
+
+        dropGlaze.x = 1338;
+        dropGlaze.y = dropTop + 32;
+        dropGlaze.scale.set(0.7);
+        setInterval(() => dropGlaze.show(), 5400);
 
         const actionsGap = 10;
 
