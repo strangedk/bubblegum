@@ -1,7 +1,7 @@
-# pixi-typescript-boilerplate
+# pixi-bubblegum-factory
 
-Based on webpack-starter-kit-pixijs
-https://github.com/jasesnider/webpack-starter-kit-pixijs
+Based on pixi-typescript-boilerplate
+https://github.com/strangedk/pixi-typescript-boilerplate
 
 Webpack here is supports hot reloading and typescript
 
@@ -9,6 +9,10 @@ If you got an error about 'module not found', please check *@types* for this mod
 
 Also don't forget to add unusable file types into the *.gitignore*
 
-Steps:
+Steps dev:
 1. npm i
 2. npm start
+
+Steps prod:
+1. npm i
+2. npm run-script build
