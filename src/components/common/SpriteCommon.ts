@@ -14,6 +14,7 @@ class SpriteCommon extends PIXI.Sprite {
     saveDefaults = () => {
         this.defaultX = this.x;
         this.defaultY = this.y;
+        return this;
     }
 
     restoreDefaults = () => {

@@ -23,9 +23,6 @@ class Form extends PIXI.Sprite {
         this.setResources();
     }
 
-    public setContent = () => {
-    };
-
     public setForm = (type: ActionValue) => {
         switch (type) {
             case ActionValue.FORM_1:
@@ -54,6 +51,7 @@ class Form extends PIXI.Sprite {
                 const result = new SpriteCommon(this.resources[i]);
                 result.alpha = 0;
                 result.anchor.set(0.5, 1);
+                result.x = result.y = 0;
 
                 this.anchor.set(0, 0);
                 this.addChild(result);
@@ -64,10 +62,14 @@ class Form extends PIXI.Sprite {
         return this;
     }
 
+    public setView = () => {
+
+    }
+
     public gotoAction = (action: ActionType, onComplete?: any) => {
-        this.hideAll();
-        const view = this.getViewByAction(action);
-        gsap.to(view, {alpha: 1, duration: 1});
+        const view = this.getViewByAction(action) as any;
+        this.hideAll(view);
+        gsap.to(view, {alpha: 1, duration: 0.3});
 
         switch (action) {
             case ActionType.FORM:
@@ -104,8 +106,19 @@ class Form extends PIXI.Sprite {
                 break;
             case ActionType.PACKAGE:
                 gsap.to(view, {
+                    x: 1460, duration: Conveyor.DURATION, onComplete: () => {
+                        this.syncWith(view);
+                        onComplete && onComplete();
+                    }
+                });
+                break;
+            case ActionType.COMPLETED:
+                gsap.to(view, {
                     x: 1680, duration: Conveyor.DURATION, onComplete: () => {
                         this.syncWith(view);
+
+                        gsap.to(view, {x:view.x-100, y:view.y-100, alpha: 0, duration: 3});
+
                         onComplete && onComplete();
                     }
                 });
@@ -113,11 +126,6 @@ class Form extends PIXI.Sprite {
         }
 
         return this;
-    }
-
-    public reset = () => {
-        this.hideAll();
-        this.gotoAction(ActionType.NONE);
     }
 
     private getViewByAction(action: ActionType) {
@@ -131,9 +139,9 @@ class Form extends PIXI.Sprite {
             case ActionType.GLAZE:
                 return this.stepSprites[3];
             case ActionType.PACKAGE:
+                return this.stepSprites[3];
+            case ActionType.COMPLETED:
                 return this.stepSprites[4];
-            case ActionType.NONE:
-                return this.stepSprites[0];
         }
     }
 
@@ -148,9 +156,9 @@ class Form extends PIXI.Sprite {
         return this;
     }
 
-    private hideAll = () => {
+    private hideAll = (except?: SpriteCommon) => {
         this.stepSprites.forEach(s => {
-            if (s.alpha > 0)
+            if (s.alpha > 0 && s !== except)
                 gsap.to(s, {alpha: 0, duration: 0.2});
         });
     }

@@ -26,8 +26,6 @@ class ConveyorLineWheels extends PIXI.Container {
                 this.addChild(wheel);
                 return wheel;
             });
-
-        this.animate();
     }
 
     animate = () => {

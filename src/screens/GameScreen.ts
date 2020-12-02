@@ -9,7 +9,7 @@ import ResourceService from "../resources/ResourceService";
 import ConveyorLineWheels from "../components/ConveyorLineWheels";
 import Drop from "../components/Drop";
 import Form from "../components/Form";
-import FormType from "../enums/FormType";
+import Taste from "../components/Taste";
 
 class GameScreen extends PIXI.Container {
     // region #Resources
@@ -48,14 +48,11 @@ class GameScreen extends PIXI.Container {
     // Conveyor light
     private readonly conveyorLight: SpriteCommon = new SpriteCommon(ResourceList.CONVEYOR_LIGHT);
     // Drop
-    private readonly dropForm: Drop = new Drop(ActionValue.COLOR_GRAY);
-    private readonly dropGlaze: Drop = new Drop(ActionValue.COLOR_GRAY);
+    private readonly dropForm: Drop = new Drop();
+    private readonly dropGlaze: Drop = new Drop();
     private readonly dropColor: Drop = new Drop();
     // Taste
-    private readonly tasteBubble: SpriteCommon = new SpriteCommon(ResourceList.TASTE_BUBBLE);
-    private readonly tasteMint: SpriteCommon = new SpriteCommon(ResourceList.TASTE_MINT);
-    private readonly tasteStrawBanana: SpriteCommon = new SpriteCommon(ResourceList.TASTE_STRAW_BANANA);
-    private readonly tasteWatermelon: SpriteCommon = new SpriteCommon(ResourceList.TASTE_WATERMELON);
+    private readonly taste: Taste = new Taste();
     // Trash
     private readonly trashOver: SpriteCommon = new SpriteCommon(ResourceList.TRASH_OVER);
     private readonly trashUnder: SpriteCommon = new SpriteCommon(ResourceList.TRASH_UNDER);
@@ -101,6 +98,25 @@ class GameScreen extends PIXI.Container {
 
     // endregion
 
+    // region #Selected items
+    private _selected: any = {
+        form: null,
+        color: null,
+        taste: null,
+        glaze: null,
+        package: null,
+    }
+
+    private set selected(value: any) {
+        this._selected = {...this._selected, value};
+    }
+
+    private get selected() {
+        return this._selected;
+    }
+
+    // endregion
+
     constructor(private app: PIXI.Application) {
         super();
 
@@ -136,6 +152,10 @@ class GameScreen extends PIXI.Container {
         setTimeout(() => this.setActionControlsStep(ActionType.FORM), 500);
     }
 
+    private reset = () => {
+        this.setActionControlsStep(ActionType.FORM);
+    }
+
     public animate = (delta: number = 0) => {
         // -
     }
@@ -144,9 +164,13 @@ class GameScreen extends PIXI.Container {
         this.currentActionStep = type;
     }
 
+    private disableActions = () => {
+        this.actionsViewAll.forEach((s: SpriteInteractive) => s.enabled = false);
+    }
+
     private enableActions = (type: ActionType) => {
-        this.actionsViewAll.forEach((s: SpriteInteractive) => s.enabled = true);
-        // this.actionsViewByType[type].forEach((s: SpriteInteractive) => s.enabled = true);
+        this.disableActions();
+        this.actionsViewByType[type].forEach((s: SpriteInteractive) => s.enabled = true);
     }
 
     private handleAction = (type: ActionType, value: ActionValue) => {
@@ -157,32 +181,89 @@ class GameScreen extends PIXI.Container {
 
         switch (type) {
             case ActionType.FORM:
-                form.setForm(value).gotoAction(type, () => {
-                    this.dropForm.animate();
-                });
+                this.selected.form = value;
+                this.disableActions();
+
                 conveyorLine.animate(530);
                 wheels.animate();
+
+                // Set form and move to the form bubble tube
+                form.setForm(value).gotoAction(type, () => {
+                    // When form is on the place, drop the bubble with color
+                    this.dropForm.animate(ActionValue.COLOR_GRAY, () => {
+                        // TODO: change form here
+                        // When bubble drop is finished, move to the color tube
+                        wheels.animate();
+                        conveyorLine.animate(800);
+                        form.gotoAction(ActionType.COLOR, () => {
+                            // When form is under color tube, enable the next actions
+                            this.enableActions(ActionType.COLOR);
+                        });
+                    });
+                });
                 break;
             case ActionType.COLOR:
-                form.setForm(value).gotoAction(type, () => {
-                    this.dropColor.animate(value);
+                this.selected.color = value;
+                this.disableActions();
+
+                // Here, form is under color tube and user was select color action
+                this.dropColor.animate(value, () => {
+                    // TODO: change form here
+                    conveyorLine.animate(1020);
+                    wheels.animate();
+
+                    form.gotoAction(ActionType.TASTE, () => {
+                        // Enable taste actions only after form is under taste tube
+                        this.enableActions(ActionType.TASTE);
+                    });
                 });
-                conveyorLine.animate(800);
-                form.gotoAction(type);
+
                 break;
             case ActionType.TASTE:
-                conveyorLine.animate(1020);
-                form.gotoAction(type);
+                this.selected.taste = value;
+
+                this.disableActions();
+                this.taste.animate(value, () => {
+                    // TODO: change form here
+
+                    // After taste was selected, move to the glaze tube
+                    conveyorLine.animate(1250);
+                    wheels.animate();
+                    form.gotoAction(ActionType.GLAZE, () => {
+                        // After form is under glaze tube, enable glaze actions
+                        this.enableActions(ActionType.GLAZE);
+                    });
+                })
                 break;
             case ActionType.GLAZE:
-                conveyorLine.animate(1250);
-                form.gotoAction(type, () => {
-                    this.dropGlaze.animate();
-                });
+                this.selected.glaze = value;
+                this.disableActions();
+
+                const next = () => {
+                    conveyorLine.animate(1460);
+                    wheels.animate();
+                    form.gotoAction(ActionType.PACKAGE, () => {
+                        this.enableActions(ActionType.PACKAGE);
+                    });
+                }
+
+                if (value === ActionValue.GLAZE_ON) {
+                    this.dropGlaze.animate(ActionValue.COLOR_GRAY, next);
+                } else {
+                    next();
+                }
                 break;
             case ActionType.PACKAGE:
+                this.selected.package = value;
+                this.disableActions();
+
                 conveyorLine.animate(1680);
-                form.gotoAction(type);
+                wheels.animate();
+
+                form.gotoAction(ActionType.COMPLETED, () => {
+                    this.reset();
+                    conveyorLine.reset();
+                });
                 break;
         }
     }
@@ -243,17 +324,15 @@ class GameScreen extends PIXI.Container {
         this.addChild(this.dropForm);
         this.addChild(this.dropColor);
         this.addChild(this.dropGlaze);
+
+        // Taste
+        this.addChild(this.taste);
+
         // Top machines
         this.addChild(this.machines);
 
         // Conveyor light
         this.addChild(this.conveyorLight);
-
-        // Tastes
-        this.addChild(this.tasteBubble);
-        this.addChild(this.tasteMint);
-        this.addChild(this.tasteStrawBanana);
-        this.addChild(this.tasteWatermelon);
 
         // Trash
         this.addChild(this.trashOver);
@@ -297,6 +376,7 @@ class GameScreen extends PIXI.Container {
             dropColor,
             dropGlaze,
             form,
+            taste,
         } = this;
 
         const W = app.renderer.width;
@@ -336,6 +416,9 @@ class GameScreen extends PIXI.Container {
         dropGlaze.x = 1338;
         dropGlaze.y = dropTop + 32;
         dropGlaze.scale.set(0.7);
+
+        taste.x = 1120;
+        taste.y = 283;
 
         const actionsGap = 10;
         actionsWrapper.x = 380;

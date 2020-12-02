@@ -13,7 +13,7 @@ class Drop extends PIXI.Sprite {
 
     private dropByValue: any = {};
 
-    constructor(private defaultValue?: ActionValue) {
+    constructor() {
         super();
 
         const {dropGray, dropGreen, dropPurple, defaultDropAnchor} = this;
@@ -32,15 +32,15 @@ class Drop extends PIXI.Sprite {
         this.addChild(dropGray, dropGreen, dropPurple);
     }
 
-    public animate = (actionValue?: ActionValue) => {
+    public animate = (actionValue?: ActionValue, onComplete?: any) => {
         this.hideAll();
 
-        const value = (actionValue ? actionValue : this.defaultValue) as any;
+        const value = actionValue as any;
 
         const currentDrop = this.dropByValue[value];
-        const dropAlpha = () => gsap.to(currentDrop, {alpha: 1, duration: 0.5})
+        const dropAlpha = () => gsap.to(currentDrop, {alpha: 1, duration: 0.2})
         const dropScale = () => gsap.to(currentDrop.scale, {
-            y: 1.5, duration: 2, onComplete: () => {
+            y: 1.5, duration: 0.5, onComplete: () => {
                 dropMove();
                 changeAnchor();
             }
@@ -57,7 +57,8 @@ class Drop extends PIXI.Sprite {
         const vanish = () => gsap.to(currentDrop, {alpha: 0, duration: 1, onComplete: finish});
         const finish = () => {
             currentDrop.restoreDefaults().resetAlpha().resetScale();
-            this.hideAll()
+            this.hideAll();
+            onComplete && onComplete();
         };
 
         dropAlpha();

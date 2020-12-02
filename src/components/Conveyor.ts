@@ -10,8 +10,22 @@ class Conveyor extends PIXI.TilingSprite {
         super(texture, width, height);
     }
 
-    public animate = (distance: number = Conveyor.TILE_WIDTH) => {
-        gsap.to(this.tilePosition, {x: distance, duration: Conveyor.DURATION});
+    public animate = (distance: number = Conveyor.TILE_WIDTH, duration = Conveyor.DURATION) => {
+        gsap.to(this.tilePosition, {x: distance, duration: duration});
+    }
+
+    public reset = () => {
+        gsap.fromTo(this.tilePosition,
+            {
+                x: Conveyor.TILE_WIDTH * 7
+            },
+            {
+                x: Conveyor.TILE_WIDTH * 12,
+                duration: 2,
+                onComplete: () => {
+                    this.tilePosition.x = 0;
+                }
+            })
     }
 }
 
