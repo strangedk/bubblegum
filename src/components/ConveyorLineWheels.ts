@@ -39,9 +39,6 @@ class ConveyorLineWheels extends PIXI.Container {
             onUpdate: () => {
                 this.wheels.forEach(w => w.rotation = this.currentRotation);
             },
-            onComplete: () => {
-                this.animate();
-            }
         });
     }
 }

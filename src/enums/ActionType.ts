@@ -1,4 +1,5 @@
 enum ActionType {
+    NONE,
     FORM = 1,
     COLOR = 2,
     TASTE = 3,

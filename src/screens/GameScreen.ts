@@ -8,6 +8,8 @@ import Conveyor from "../components/Conveyor";
 import ResourceService from "../resources/ResourceService";
 import ConveyorLineWheels from "../components/ConveyorLineWheels";
 import Drop from "../components/Drop";
+import Form from "../components/Form";
+import FormType from "../enums/FormType";
 
 class GameScreen extends PIXI.Container {
     // region #Resources
@@ -65,6 +67,8 @@ class GameScreen extends PIXI.Container {
     private readonly conveyorLine: Conveyor = new Conveyor(ResourceService.getTexture(ResourceList.CONVEYOR_LINE));
     // Conveyor wheels
     private readonly wheels: ConveyorLineWheels = new ConveyorLineWheels();
+    // All form behaviour
+    private readonly form: Form = new Form();
     // endregion
 
     // region #Steps logic
@@ -129,43 +133,60 @@ class GameScreen extends PIXI.Container {
         this.arrangeElements();
         this.addEvents();
 
-        setTimeout(() => this.setActionStep(ActionType.FORM), 500);
-        setTimeout(() => this.setActionStep(ActionType.COLOR), 3000);
-        setTimeout(() => this.setActionStep(ActionType.TASTE), 5000);
-        setTimeout(() => this.setActionStep(ActionType.GLAZE), 7000);
-        setTimeout(() => this.setActionStep(ActionType.PACKAGE), 9000);
+        setTimeout(() => this.setActionControlsStep(ActionType.FORM), 500);
     }
 
     public animate = (delta: number = 0) => {
         // -
     }
 
-    private setActionStep = (type: ActionType) => {
+    private setActionControlsStep = (type: ActionType) => {
         this.currentActionStep = type;
     }
 
     private enableActions = (type: ActionType) => {
-        this.actionsViewAll.forEach((s: SpriteInteractive) => s.enabled = false);
-        this.actionsViewByType[type].forEach((s: SpriteInteractive) => s.enabled = true);
+        this.actionsViewAll.forEach((s: SpriteInteractive) => s.enabled = true);
+        // this.actionsViewByType[type].forEach((s: SpriteInteractive) => s.enabled = true);
     }
 
-    private invokeAction = (type: ActionType, value: ActionValue) => {
-        if (type !== this.currentActionStep)
-            return;
+    private handleAction = (type: ActionType, value: ActionValue) => {
+        const {form, conveyorLine, wheels} = this;
+
+        // if (type !== this.currentActionStep)
+        //     return;
 
         switch (type) {
             case ActionType.FORM:
+                form.setForm(value).gotoAction(type, () => {
+                    this.dropForm.animate();
+                });
+                conveyorLine.animate(530);
+                wheels.animate();
                 break;
             case ActionType.COLOR:
+                form.setForm(value).gotoAction(type, () => {
+                    this.dropColor.animate(value);
+                });
+                conveyorLine.animate(800);
+                form.gotoAction(type);
                 break;
             case ActionType.TASTE:
+                conveyorLine.animate(1020);
+                form.gotoAction(type);
                 break;
             case ActionType.GLAZE:
+                conveyorLine.animate(1250);
+                form.gotoAction(type, () => {
+                    this.dropGlaze.animate();
+                });
                 break;
             case ActionType.PACKAGE:
+                conveyorLine.animate(1680);
+                form.gotoAction(type);
                 break;
         }
     }
+
     // endregion
 
     // region #Elements and events
@@ -212,6 +233,9 @@ class GameScreen extends PIXI.Container {
         this.addChild(this.conveyorLine);
         this.addChild(this.conveyorLineUp);
 
+        // Form
+        this.addChild(this.form);
+
         // Front side
         this.addChild(this.conveyorConv1);
 
@@ -222,20 +246,24 @@ class GameScreen extends PIXI.Container {
         // Top machines
         this.addChild(this.machines);
 
-        this.addChild(this.conveyorLevel1);
-        this.addChild(this.conveyorLevel2);
-        this.addChild(this.conveyorLevel3);
-        this.addChild(this.conveyorLevel4);
-
+        // Conveyor light
         this.addChild(this.conveyorLight);
 
+        // Tastes
         this.addChild(this.tasteBubble);
         this.addChild(this.tasteMint);
         this.addChild(this.tasteStrawBanana);
         this.addChild(this.tasteWatermelon);
 
+        // Trash
         this.addChild(this.trashOver);
         this.addChild(this.trashUnder);
+
+        // Conveyor screen hints
+        this.addChild(this.conveyorLevel1);
+        this.addChild(this.conveyorLevel2);
+        this.addChild(this.conveyorLevel3);
+        this.addChild(this.conveyorLevel4);
     }
 
     private arrangeElements = () => {
@@ -268,6 +296,7 @@ class GameScreen extends PIXI.Container {
             dropForm,
             dropColor,
             dropGlaze,
+            form,
         } = this;
 
         const W = app.renderer.width;
@@ -294,22 +323,21 @@ class GameScreen extends PIXI.Container {
         conveyorLineUp.x = W - 8;
         conveyorLineUp.y = H / 2 + 64;
 
-        const dropTop = 300;
+        form.x = 100;
+        form.y = 470;
+
+        const dropTop = 290;
         dropForm.x = 630;
         dropForm.y = dropTop;
-        setInterval(() => dropForm.show(), 6000);
 
         dropColor.x = 900;
         dropColor.y = dropTop;
-        setInterval(() => dropColor.show(ActionValue.COLOR_GREEN), 5000)
 
         dropGlaze.x = 1338;
         dropGlaze.y = dropTop + 32;
         dropGlaze.scale.set(0.7);
-        setInterval(() => dropGlaze.show(), 5400);
 
         const actionsGap = 10;
-
         actionsWrapper.x = 380;
         actionsWrapper.y = 580;
 
@@ -347,24 +375,24 @@ class GameScreen extends PIXI.Container {
     }
 
     private addEvents = () => {
-        const {invokeAction,} = this;
+        const {handleAction,} = this;
 
-        this.actionForm1.action = () => invokeAction(ActionType.FORM, ActionValue.FORM_1);
-        this.actionForm2.action = () => invokeAction(ActionType.FORM, ActionValue.FORM_2);
-        this.actionForm3.action = () => invokeAction(ActionType.FORM, ActionValue.FORM_3);
-        this.actionColorGray.action = () => invokeAction(ActionType.COLOR, ActionValue.COLOR_GRAY);
-        this.actionColorGreen.action = () => invokeAction(ActionType.COLOR, ActionValue.COLOR_GREEN);
-        this.actionColorPurple.action = () => invokeAction(ActionType.COLOR, ActionValue.COLOR_PURPLE);
-        this.actionTasteBubble.action = () => invokeAction(ActionType.TASTE, ActionValue.TASTE_BUBBLE);
-        this.actionTasteMint.action = () => invokeAction(ActionType.TASTE, ActionValue.TASTE_MINT);
-        this.actionTasteStrawBanana.action = () => invokeAction(ActionType.TASTE, ActionValue.TASTE_STRAW);
-        this.actionTasteWatermelon.action = () => invokeAction(ActionType.TASTE, ActionValue.TASTE_WATERMELON);
-        this.actionGlazeOn.action = () => invokeAction(ActionType.GLAZE, ActionValue.GLAZE_ON);
-        this.actionGlazeOff.action = () => invokeAction(ActionType.GLAZE, ActionValue.GLAZE_OFF);
-        this.actionPackage1.action = () => invokeAction(ActionType.PACKAGE, ActionValue.PACK_1);
-        this.actionPackage2.action = () => invokeAction(ActionType.PACKAGE, ActionValue.PACK_2);
-        this.actionPackage3.action = () => invokeAction(ActionType.PACKAGE, ActionValue.PACK_3);
-        this.actionPackage4.action = () => invokeAction(ActionType.PACKAGE, ActionValue.PACK_4);
+        this.actionForm1.action = () => handleAction(ActionType.FORM, ActionValue.FORM_1);
+        this.actionForm2.action = () => handleAction(ActionType.FORM, ActionValue.FORM_2);
+        this.actionForm3.action = () => handleAction(ActionType.FORM, ActionValue.FORM_3);
+        this.actionColorGray.action = () => handleAction(ActionType.COLOR, ActionValue.COLOR_GRAY);
+        this.actionColorGreen.action = () => handleAction(ActionType.COLOR, ActionValue.COLOR_GREEN);
+        this.actionColorPurple.action = () => handleAction(ActionType.COLOR, ActionValue.COLOR_PURPLE);
+        this.actionTasteBubble.action = () => handleAction(ActionType.TASTE, ActionValue.TASTE_BUBBLE);
+        this.actionTasteMint.action = () => handleAction(ActionType.TASTE, ActionValue.TASTE_MINT);
+        this.actionTasteStrawBanana.action = () => handleAction(ActionType.TASTE, ActionValue.TASTE_STRAW);
+        this.actionTasteWatermelon.action = () => handleAction(ActionType.TASTE, ActionValue.TASTE_WATERMELON);
+        this.actionGlazeOn.action = () => handleAction(ActionType.GLAZE, ActionValue.GLAZE_ON);
+        this.actionGlazeOff.action = () => handleAction(ActionType.GLAZE, ActionValue.GLAZE_OFF);
+        this.actionPackage1.action = () => handleAction(ActionType.PACKAGE, ActionValue.PACK_1);
+        this.actionPackage2.action = () => handleAction(ActionType.PACKAGE, ActionValue.PACK_2);
+        this.actionPackage3.action = () => handleAction(ActionType.PACKAGE, ActionValue.PACK_3);
+        this.actionPackage4.action = () => handleAction(ActionType.PACKAGE, ActionValue.PACK_4);
     }
     // endregion
 }

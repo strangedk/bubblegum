@@ -32,7 +32,7 @@ class Drop extends PIXI.Sprite {
         this.addChild(dropGray, dropGreen, dropPurple);
     }
 
-    public show = (actionValue?: ActionValue) => {
+    public animate = (actionValue?: ActionValue) => {
         this.hideAll();
 
         const value = (actionValue ? actionValue : this.defaultValue) as any;

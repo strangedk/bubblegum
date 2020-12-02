@@ -21,7 +21,11 @@
   <component name="ChangeListManager">
     <list default="true" id="24bf3215-317a-49ee-a1f7-46be7723e795" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/SpriteCommon.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/SpriteCommon.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Conveyor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Conveyor.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ConveyorLineWheels.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ConveyorLineWheels.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Drop.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Drop.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enums/ActionType.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/ActionType.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/ResourceList.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/ResourceList.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/GameScreen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/GameScreen.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -70,7 +74,8 @@
       <workItem from="1606754343208" duration="12130000" />
       <workItem from="1606805493691" duration="6310000" />
       <workItem from="1606823667287" duration="1000000" />
-      <workItem from="1606843640988" duration="742000" />
+      <workItem from="1606843640988" duration="1155000" />
+      <workItem from="1606848388241" duration="16232000" />
     </task>
     <servers />
   </component>
@@ -98,5 +103,9 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="427" y="163" width="585" height="534" key="find.popup/-1366.0.1366.728/0.0.1440.860@0.0.1440.860" timestamp="1606765646335" />
+    <state x="383" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1606865738868">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="383" y="180" width="672" height="678" key="search.everywhere.popup/-1366.0.1366.728/0.0.1440.860@0.0.1440.860" timestamp="1606865738868" />
   </component>
 </project>

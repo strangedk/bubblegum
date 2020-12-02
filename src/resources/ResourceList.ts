@@ -26,7 +26,6 @@ class ResourceList {
     static CONVEYOR_LINE = '../assets/conveyor/line.png';
     static CONVEYOR_LINE_UP = '../assets/conveyor/line-up.png';
     static CONVEYOR_TABLE = '../assets/conveyor/table.png';
-    static CONVEYOR_TABLE_WITH_WHEELS = '../assets/conveyor/table-with-wheels.png';
 
     static DROP_GRAY = '../assets/drop/gray.png';
     static DROP_GREEN = '../assets/drop/green.png';
@@ -43,6 +42,31 @@ class ResourceList {
     static BACKGROUND = '../assets/background.png';
     static MACHINES = '../assets/machines.png';
     static WHEEL = '../assets/wheel.png';
+
+    static BOOM = '../assets/items/boom.png';
+    static BOOM_RESULT = '../assets/items/boom-result.png';
+
+    static FORM_1_1 = '../assets/items/form-1-1.png';
+    static FORM_1_2 = '../assets/items/form-1-2.png';
+    static FORM_1_3 = '../assets/items/form-1-3.png';
+    static FORM_1_4 = '../assets/items/form-1-4.png';
+    static FORM_2_1 = '../assets/items/form-2-1.png';
+    static FORM_2_2 = '../assets/items/form-2-2.png';
+    static FORM_2_3 = '../assets/items/form-2-3.png';
+    static FORM_2_4 = '../assets/items/form-2-4.png';
+    static FORM_3_1 = '../assets/items/form-3-1.png';
+    static FORM_3_2 = '../assets/items/form-3-2.png';
+    static FORM_3_3 = '../assets/items/form-3-3.png';
+    static FORM_3_4 = '../assets/items/form-3-4.png';
+    static FORM_4_1 = '../assets/items/form-4-1.png';
+    static FORM_4_2 = '../assets/items/form-4-2.png';
+    static FORM_4_3 = '../assets/items/form-4-3.png';
+    static FORM_4_4 = '../assets/items/form-4-4.png';
+
+    static PACKAGE_1 = '../assets/items/package-1.png';
+    static PACKAGE_2 = '../assets/items/package-2.png';
+    static PACKAGE_3 = '../assets/items/package-3.png';
+    static PACKAGE_4 = '../assets/items/package-4.png';
 
     static CUSTOM_RESOURCES: string[] = [];
 
@@ -73,7 +97,6 @@ class ResourceList {
         ResourceList.CONVEYOR_LINE,
         ResourceList.CONVEYOR_LINE_UP,
         ResourceList.CONVEYOR_TABLE,
-        ResourceList.CONVEYOR_TABLE_WITH_WHEELS,
         ResourceList.DROP_GRAY,
         ResourceList.DROP_GREEN,
         ResourceList.DROP_PURPLE,
@@ -86,6 +109,28 @@ class ResourceList {
         ResourceList.BACKGROUND,
         ResourceList.MACHINES,
         ResourceList.WHEEL,
+        ResourceList.BOOM,
+        ResourceList.BOOM_RESULT,
+        ResourceList.FORM_1_1,
+        ResourceList.FORM_1_2,
+        ResourceList.FORM_1_3,
+        ResourceList.FORM_1_4,
+        ResourceList.FORM_2_1,
+        ResourceList.FORM_2_2,
+        ResourceList.FORM_2_3,
+        ResourceList.FORM_2_4,
+        ResourceList.FORM_3_1,
+        ResourceList.FORM_3_2,
+        ResourceList.FORM_3_3,
+        ResourceList.FORM_3_4,
+        ResourceList.FORM_4_1,
+        ResourceList.FORM_4_2,
+        ResourceList.FORM_4_3,
+        ResourceList.FORM_4_4,
+        ResourceList.PACKAGE_1,
+        ResourceList.PACKAGE_2,
+        ResourceList.PACKAGE_3,
+        ResourceList.PACKAGE_4,
         ...ResourceList.CUSTOM_RESOURCES,
     ];
 }
