@@ -1,10 +1,11 @@
 enum ActionType {
     FORM = 1,
-    COLOR = 2,
-    TASTE = 3,
-    GLAZE = 4,
-    PACKAGE = 5,
-    COMPLETED = 6,
+    FORM_FILLED = 2,
+    COLOR = 3,
+    TASTE = 4,
+    GLAZE = 5,
+    PACKAGE = 6,
+    COMPLETED = 7,
 }
 
 export default ActionType;

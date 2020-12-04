@@ -21,12 +21,16 @@
   <component name="ChangeListManager">
     <list default="true" id="24bf3215-317a-49ee-a1f7-46be7723e795" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Conveyor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Conveyor.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ConveyorLineWheels.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ConveyorLineWheels.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Drop.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Drop.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/action/form-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/action/form-2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/items/form-1-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/items/form-1-3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/items/form-1-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/items/form-1-4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/items/form-2-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/items/form-2-3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/items/form-2-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/items/form-2-4.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Form.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Form.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/SpriteCommon.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/SpriteCommon.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/enums/ActionType.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/ActionType.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enums/ActionValue.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/ActionValue.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enums/FormType.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/ResourceList.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/ResourceList.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/GameScreen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/GameScreen.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,6 +65,11 @@
     <property name="ts.external.directory.path" value="D:\mine\wsa\bubblegum\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\mine\wsa\bubblegum\src\bubbleGum" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -79,7 +88,11 @@
       <workItem from="1606848388241" duration="16833000" />
       <workItem from="1606895990050" duration="55000" />
       <workItem from="1606896970773" duration="49000" />
-      <workItem from="1606934087512" duration="10174000" />
+      <workItem from="1606934087512" duration="10870000" />
+      <workItem from="1606977672888" duration="17000" />
+      <workItem from="1606994904216" duration="623000" />
+      <workItem from="1607020681798" duration="11567000" />
+      <workItem from="1607037144714" duration="6269000" />
     </task>
     <servers />
   </component>
@@ -103,13 +116,21 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="500" y="184" key="FileChooserDialogImpl/-1366.0.1366.728/0.0.1440.860@0.0.1440.860" timestamp="1606824676234" />
+    <state x="562" y="132" key="RollbackChangesDialog" timestamp="1607037531885">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="562" y="132" key="RollbackChangesDialog/-1366.0.1366.728/0.0.1440.860@0.0.1440.860" timestamp="1607037531885" />
+    <state x="92" y="92" width="1256" height="676" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1607037912233">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="92" y="92" width="1256" height="676" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog/-1366.0.1366.728/0.0.1440.860@0.0.1440.860" timestamp="1607037912233" />
     <state x="427" y="163" width="585" height="534" key="find.popup" timestamp="1606765646335">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="427" y="163" width="585" height="534" key="find.popup/-1366.0.1366.728/0.0.1440.860@0.0.1440.860" timestamp="1606765646335" />
-    <state x="383" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1606946108235">
+    <state x="383" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1607043064888">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="383" y="180" width="672" height="678" key="search.everywhere.popup/-1366.0.1366.728/0.0.1440.860@0.0.1440.860" timestamp="1606946108235" />
+    <state x="383" y="180" width="672" height="678" key="search.everywhere.popup/-1366.0.1366.728/0.0.1440.860@0.0.1440.860" timestamp="1607043064888" />
   </component>
 </project>

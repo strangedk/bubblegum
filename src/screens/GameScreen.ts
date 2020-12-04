@@ -10,6 +10,7 @@ import ConveyorLineWheels from "../components/ConveyorLineWheels";
 import Drop from "../components/Drop";
 import Form from "../components/Form";
 import Taste from "../components/Taste";
+import ConveyorScreen from "../components/ConveyorScreen";
 
 class GameScreen extends PIXI.Container {
     // region #Resources
@@ -38,10 +39,7 @@ class GameScreen extends PIXI.Container {
     private readonly conveyorConv1: SpriteCommon = new SpriteCommon(ResourceList.CONVEYOR_CONV_1);
     private readonly conveyorConv2: SpriteCommon = new SpriteCommon(ResourceList.CONVEYOR_CONV_2);
     // Conveyor examples on the screen
-    private readonly conveyorLevel1: SpriteCommon = new SpriteCommon(ResourceList.CONVEYOR_LEVEL_1);
-    private readonly conveyorLevel2: SpriteCommon = new SpriteCommon(ResourceList.CONVEYOR_LEVEL_2);
-    private readonly conveyorLevel3: SpriteCommon = new SpriteCommon(ResourceList.CONVEYOR_LEVEL_3);
-    private readonly conveyorLevel4: SpriteCommon = new SpriteCommon(ResourceList.CONVEYOR_LEVEL_4);
+    private readonly conveyorScreen: ConveyorScreen = new ConveyorScreen();
     // Conveyor lines
     private readonly conveyorLineUp: SpriteCommon = new SpriteCommon(ResourceList.CONVEYOR_LINE_UP);
     private readonly conveyorTable: SpriteCommon = new SpriteCommon(ResourceList.CONVEYOR_TABLE);
@@ -95,26 +93,6 @@ class GameScreen extends PIXI.Container {
     private readonly actionsTasteWrapper: PIXI.Container = new PIXI.Container();
     private readonly actionsGlazeWrapper: PIXI.Container = new PIXI.Container();
     private readonly actionsPackageWrapper: PIXI.Container = new PIXI.Container();
-
-    // endregion
-
-    // region #Selected items
-    private _selected: any = {
-        form: null,
-        color: null,
-        taste: null,
-        glaze: null,
-        package: null,
-    }
-
-    private set selected(value: any) {
-        this._selected = {...this._selected, value};
-    }
-
-    private get selected() {
-        return this._selected;
-    }
-
     // endregion
 
     constructor(private app: PIXI.Application) {
@@ -153,6 +131,9 @@ class GameScreen extends PIXI.Container {
     }
 
     private reset = () => {
+        this.conveyorScreen.randomNext();
+        this.conveyorLine.reset();
+        this.form.reset();
         this.setActionControlsStep(ActionType.FORM);
     }
 
@@ -161,6 +142,7 @@ class GameScreen extends PIXI.Container {
     }
 
     private setActionControlsStep = (type: ActionType) => {
+        this.conveyorScreen.print();
         this.currentActionStep = type;
     }
 
@@ -173,78 +155,112 @@ class GameScreen extends PIXI.Container {
         this.actionsViewByType[type].forEach((s: SpriteInteractive) => s.enabled = true);
     }
 
-    private handleAction = (type: ActionType, value: ActionValue) => {
+    private isCorrect = (type: ActionType, value: ActionValue): boolean => {
+        const {form, color, glaze, pack, taste} = ConveyorScreen.current;
+
+        // console.log('IsCorrect checking :::');
+        // console.log(`form: ${form} color: ${color} glaze: ${glaze} taste: ${taste} pack: ${pack} `);
+        // console.log(`type: ${type} value: ${value}`);
+
+        if (type === ActionType.FORM && form !== value) return false;
+        if (type === ActionType.COLOR && color !== value) return false;
+        if (type === ActionType.GLAZE && glaze !== value) return false;
+        if (type === ActionType.TASTE && taste !== value) return false;
+        if (type === ActionType.PACKAGE && pack !== value) return false;
+
+        return true;
+    }
+
+    private handleAction = (type: ActionType, _value: ActionValue) => {
+        let value = _value;
+
+        // Fix the 3 buttons to 4 bubblegums kind of forms mapping
+        const requiredForm = ConveyorScreen.current.form;
+        if (value == ActionValue.FORM_3 && requiredForm == ActionValue.FORM_4) {
+            value = requiredForm;
+        }
+
         const {form, conveyorLine, wheels} = this;
+
+        if (!this.isCorrect(type, value)) {
+            console.log('::: incorrect');
+            this.reset();
+            return;
+        } else {
+            console.log('::: correct');
+        }
 
         // if (type !== this.currentActionStep)
         //     return;
 
         switch (type) {
             case ActionType.FORM:
-                this.selected.form = value;
                 this.disableActions();
 
                 conveyorLine.animate(530);
                 wheels.animate();
 
                 // Set form and move to the form bubble tube
-                form.setForm(value).gotoAction(type, () => {
-                    // When form is on the place, drop the bubble with color
-                    this.dropForm.animate(ActionValue.COLOR_GRAY, () => {
-                        // TODO: change form here
-                        // When bubble drop is finished, move to the color tube
-                        wheels.animate();
-                        conveyorLine.animate(800);
-                        form.gotoAction(ActionType.COLOR, () => {
-                            // When form is under color tube, enable the next actions
-                            this.enableActions(ActionType.COLOR);
+                form.setForm(value)
+                    .setView(ActionType.FORM)
+                    .gotoAction(type, () => {
+                        // When form is on the place, drop the bubble with color
+                        this.dropForm.animate(ActionValue.COLOR_GRAY, () => {
+                            // When bubble drop is finished, move to the color tube
+                            form.setView(ActionType.FORM_FILLED);
+                            wheels.animate();
+                            conveyorLine.animate(800);
+
+                            form.gotoAction(ActionType.COLOR, () => {
+                                // When form is under color tube, enable the next actions
+                                this.enableActions(ActionType.COLOR);
+                            });
                         });
                     });
-                });
                 break;
             case ActionType.COLOR:
-                this.selected.color = value;
                 this.disableActions();
 
                 // Here, form is under color tube and user was select color action
                 this.dropColor.animate(value, () => {
-                    // TODO: change form here
+
                     conveyorLine.animate(1020);
                     wheels.animate();
 
-                    form.gotoAction(ActionType.TASTE, () => {
-                        // Enable taste actions only after form is under taste tube
-                        this.enableActions(ActionType.TASTE);
-                    });
+                    form.setView(ActionType.COLOR)
+                        .gotoAction(ActionType.TASTE, () => {
+                            // Enable taste actions only after form is under taste tube
+                            this.enableActions(ActionType.TASTE);
+                        });
                 });
 
                 break;
             case ActionType.TASTE:
-                this.selected.taste = value;
-
                 this.disableActions();
                 this.taste.animate(value, () => {
-                    // TODO: change form here
-
                     // After taste was selected, move to the glaze tube
                     conveyorLine.animate(1250);
                     wheels.animate();
-                    form.gotoAction(ActionType.GLAZE, () => {
-                        // After form is under glaze tube, enable glaze actions
-                        this.enableActions(ActionType.GLAZE);
-                    });
+
+                    form.setView(ActionType.TASTE)
+                        .gotoAction(ActionType.GLAZE, () => {
+                            // After form is under glaze tube, enable glaze actions
+                            this.enableActions(ActionType.GLAZE);
+                        });
                 })
                 break;
             case ActionType.GLAZE:
-                this.selected.glaze = value;
                 this.disableActions();
 
                 const next = () => {
+                    // After taste was selected, move to the glaze tube
                     conveyorLine.animate(1460);
                     wheels.animate();
-                    form.gotoAction(ActionType.PACKAGE, () => {
-                        this.enableActions(ActionType.PACKAGE);
-                    });
+
+                    form.setView(ActionType.GLAZE)
+                        .gotoAction(ActionType.PACKAGE, () => {
+                            this.enableActions(ActionType.PACKAGE);
+                        });
                 }
 
                 if (value === ActionValue.GLAZE_ON) {
@@ -254,16 +270,14 @@ class GameScreen extends PIXI.Container {
                 }
                 break;
             case ActionType.PACKAGE:
-                this.selected.package = value;
                 this.disableActions();
-
                 conveyorLine.animate(1680);
                 wheels.animate();
 
-                form.gotoAction(ActionType.COMPLETED, () => {
-                    this.reset();
-                    conveyorLine.reset();
-                });
+                form.setView(ActionType.PACKAGE)
+                    .gotoAction(ActionType.COMPLETED, () => {
+                        this.reset();
+                    });
                 break;
         }
     }
@@ -339,10 +353,7 @@ class GameScreen extends PIXI.Container {
         this.addChild(this.trashUnder);
 
         // Conveyor screen hints
-        this.addChild(this.conveyorLevel1);
-        this.addChild(this.conveyorLevel2);
-        this.addChild(this.conveyorLevel3);
-        this.addChild(this.conveyorLevel4);
+        this.addChild(this.conveyorScreen);
     }
 
     private arrangeElements = () => {
@@ -377,6 +388,7 @@ class GameScreen extends PIXI.Container {
             dropGlaze,
             form,
             taste,
+            conveyorScreen,
         } = this;
 
         const W = app.renderer.width;
@@ -405,6 +417,9 @@ class GameScreen extends PIXI.Container {
 
         form.x = 100;
         form.y = 470;
+
+        conveyorScreen.x = 107;
+        conveyorScreen.y = 300;
 
         const dropTop = 290;
         dropForm.x = 630;

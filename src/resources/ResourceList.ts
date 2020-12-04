@@ -50,18 +50,22 @@ class ResourceList {
     static FORM_1_2 = '../assets/items/form-1-2.png';
     static FORM_1_3 = '../assets/items/form-1-3.png';
     static FORM_1_4 = '../assets/items/form-1-4.png';
+    static FORM_1_5 = '../assets/items/form-1-5.png';
     static FORM_2_1 = '../assets/items/form-2-1.png';
     static FORM_2_2 = '../assets/items/form-2-2.png';
     static FORM_2_3 = '../assets/items/form-2-3.png';
     static FORM_2_4 = '../assets/items/form-2-4.png';
+    static FORM_2_5 = '../assets/items/form-2-5.png';
     static FORM_3_1 = '../assets/items/form-3-1.png';
     static FORM_3_2 = '../assets/items/form-3-2.png';
     static FORM_3_3 = '../assets/items/form-3-3.png';
     static FORM_3_4 = '../assets/items/form-3-4.png';
+    static FORM_3_5 = '../assets/items/form-3-5.png';
     static FORM_4_1 = '../assets/items/form-4-1.png';
     static FORM_4_2 = '../assets/items/form-4-2.png';
     static FORM_4_3 = '../assets/items/form-4-3.png';
     static FORM_4_4 = '../assets/items/form-4-4.png';
+    static FORM_4_5 = '../assets/items/form-4-5.png';
 
     static PACKAGE_1 = '../assets/items/package-1.png';
     static PACKAGE_2 = '../assets/items/package-2.png';
@@ -115,18 +119,22 @@ class ResourceList {
         ResourceList.FORM_1_2,
         ResourceList.FORM_1_3,
         ResourceList.FORM_1_4,
+        ResourceList.FORM_1_5,
         ResourceList.FORM_2_1,
         ResourceList.FORM_2_2,
         ResourceList.FORM_2_3,
         ResourceList.FORM_2_4,
+        ResourceList.FORM_2_5,
         ResourceList.FORM_3_1,
         ResourceList.FORM_3_2,
         ResourceList.FORM_3_3,
         ResourceList.FORM_3_4,
+        ResourceList.FORM_3_5,
         ResourceList.FORM_4_1,
         ResourceList.FORM_4_2,
         ResourceList.FORM_4_3,
         ResourceList.FORM_4_4,
+        ResourceList.FORM_4_5,
         ResourceList.PACKAGE_1,
         ResourceList.PACKAGE_2,
         ResourceList.PACKAGE_3,
