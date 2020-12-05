@@ -5,10 +5,10 @@ class SpriteCommon extends PIXI.Sprite {
     public defaultX: number = 0;
     public defaultY: number = 0;
 
-    constructor(resourceName: string) {
+    constructor(resourceName?: string) {
         super();
 
-        this.texture = ResourceService.getTexture(resourceName);
+        resourceName && (this.texture = ResourceService.getTexture(resourceName));
     }
 
     saveDefaults = () => {

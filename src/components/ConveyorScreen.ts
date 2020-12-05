@@ -48,6 +48,10 @@ class ConveyorScreen extends PIXI.Sprite {
         this.hideAll();
         const ex = this.examples[this.currentIndex];
         ConveyorScreen.current = ConveyorScreen.byType[this.currentIndex];
+
+        ex.scale.set(1);
+        ex.alpha = 0;
+
         gsap.to(ex, {alpha: 1, duration: 1});
         gsap.to(ex.scale, {
             x: 1.1, y: 1.1, duration: 1, yoyo: true, repeat: 20, onComplete: () => {
@@ -67,7 +71,10 @@ class ConveyorScreen extends PIXI.Sprite {
     }
 
     private hideAll = () => {
-        this.examples.forEach(e => e.alpha = 0);
+        this.examples.forEach(e => {
+            gsap.killTweensOf(e);
+            e.alpha = 0;
+        });
     }
 }
 

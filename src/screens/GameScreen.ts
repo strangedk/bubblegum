@@ -11,6 +11,8 @@ import Drop from "../components/Drop";
 import Form from "../components/Form";
 import Taste from "../components/Taste";
 import ConveyorScreen from "../components/ConveyorScreen";
+import Boom from "../components/Boom";
+import gsap from 'gsap';
 
 class GameScreen extends PIXI.Container {
     // region #Resources
@@ -64,19 +66,18 @@ class GameScreen extends PIXI.Container {
     private readonly wheels: ConveyorLineWheels = new ConveyorLineWheels();
     // All form behaviour
     private readonly form: Form = new Form();
+    // Boom animation
+    private readonly boom: Boom = new Boom();
     // endregion
 
     // region #Steps logic
-    private _currentActionStep!: ActionType;
     public set currentActionStep(value: ActionType) {
-        this._currentActionStep = value;
         this.enableActions(value);
     }
 
-    public get currentActionStep(): ActionType {
-        return this._currentActionStep;
-    }
+    // endregion
 
+    // region #Actions View types
     private readonly actionsViewByType: any = {};
     private readonly actionsViewAll: SpriteInteractive[];
     private readonly actionsFormType: SpriteInteractive[];
@@ -93,6 +94,7 @@ class GameScreen extends PIXI.Container {
     private readonly actionsTasteWrapper: PIXI.Container = new PIXI.Container();
     private readonly actionsGlazeWrapper: PIXI.Container = new PIXI.Container();
     private readonly actionsPackageWrapper: PIXI.Container = new PIXI.Container();
+
     // endregion
 
     constructor(private app: PIXI.Application) {
@@ -155,6 +157,22 @@ class GameScreen extends PIXI.Container {
         this.actionsViewByType[type].forEach((s: SpriteInteractive) => s.enabled = true);
     }
 
+    private getBoomPositionX = (type: ActionType, offset: number = 88): number => {
+        switch (type) {
+            case ActionType.FORM:
+                return Form.POS_FORM + offset;
+            case ActionType.COLOR:
+                return Form.POS_COLOR + offset;
+            case ActionType.TASTE:
+                return Form.POS_TASTE + offset;
+            case ActionType.GLAZE:
+                return Form.POS_GLAZE + offset;
+            case ActionType.PACKAGE:
+                return Form.POS_PACKAGE + offset;
+        }
+        return 0;
+    }
+
     private isCorrect = (type: ActionType, value: ActionValue): boolean => {
         const {form, color, glaze, pack, taste} = ConveyorScreen.current;
 
@@ -171,6 +189,40 @@ class GameScreen extends PIXI.Container {
         return true;
     }
 
+    private callbackBoom = () => {
+        console.info('> Boom! Explode touches the window.bubbleGumBoom() method');
+        const w = window as any;
+        !!w.bubbleGumBoom && w.bubbleGumBoom();
+    };
+
+    private callbackCompleteOne = () => {
+        console.info('> Gum is done! I\'m touching the window.bubbleGumDone() method');
+        const w = window as any;
+        !!w.bubbleGumDone && w.bubbleGumDone();
+    };
+
+    private handleBoom = (type: ActionType) => {
+        this.form.reset();
+        this.boom.restoreDefaults();
+        this.boom.x = this.getBoomPositionX(type);
+        this.boom.animate(() => {
+            this.wheels.animate();
+            this.conveyorLine.animate(Form.POS_COMPLETED);
+            gsap.to(this.boom, {
+                x: Form.POS_COMPLETED + 88, y: this.boom.y - 3, duration: Conveyor.DURATION, onComplete: () => {
+                    gsap.to(this.boom, {
+                        x: Form.POS_COMPLETED + 108, y: this.boom.y + 100, alpha: 0, onComplete: () => {
+                            this.callbackBoom();
+                            this.reset();
+                        }
+                    })
+                }
+            })
+
+            // this.reset();
+        })
+    }
+
     private handleAction = (type: ActionType, _value: ActionValue) => {
         let value = _value;
 
@@ -182,22 +234,18 @@ class GameScreen extends PIXI.Container {
 
         const {form, conveyorLine, wheels} = this;
 
-        if (!this.isCorrect(type, value)) {
-            console.log('::: incorrect');
-            this.reset();
-            return;
-        } else {
-            console.log('::: correct');
-        }
+        this.disableActions();
 
-        // if (type !== this.currentActionStep)
-        //     return;
+        if (!this.isCorrect(type, value)) {
+            this.handleBoom(type);
+            return;
+        }
 
         switch (type) {
             case ActionType.FORM:
                 this.disableActions();
 
-                conveyorLine.animate(530);
+                conveyorLine.animate(Form.POS_FORM);
                 wheels.animate();
 
                 // Set form and move to the form bubble tube
@@ -209,7 +257,7 @@ class GameScreen extends PIXI.Container {
                             // When bubble drop is finished, move to the color tube
                             form.setView(ActionType.FORM_FILLED);
                             wheels.animate();
-                            conveyorLine.animate(800);
+                            conveyorLine.animate(Form.POS_COLOR);
 
                             form.gotoAction(ActionType.COLOR, () => {
                                 // When form is under color tube, enable the next actions
@@ -224,7 +272,7 @@ class GameScreen extends PIXI.Container {
                 // Here, form is under color tube and user was select color action
                 this.dropColor.animate(value, () => {
 
-                    conveyorLine.animate(1020);
+                    conveyorLine.animate(Form.POS_TASTE);
                     wheels.animate();
 
                     form.setView(ActionType.COLOR)
@@ -239,7 +287,7 @@ class GameScreen extends PIXI.Container {
                 this.disableActions();
                 this.taste.animate(value, () => {
                     // After taste was selected, move to the glaze tube
-                    conveyorLine.animate(1250);
+                    conveyorLine.animate(Form.POS_GLAZE);
                     wheels.animate();
 
                     form.setView(ActionType.TASTE)
@@ -254,7 +302,7 @@ class GameScreen extends PIXI.Container {
 
                 const next = () => {
                     // After taste was selected, move to the glaze tube
-                    conveyorLine.animate(1460);
+                    conveyorLine.animate(Form.POS_PACKAGE);
                     wheels.animate();
 
                     form.setView(ActionType.GLAZE)
@@ -271,11 +319,12 @@ class GameScreen extends PIXI.Container {
                 break;
             case ActionType.PACKAGE:
                 this.disableActions();
-                conveyorLine.animate(1680);
+                conveyorLine.animate(Form.POS_COMPLETED);
                 wheels.animate();
 
                 form.setView(ActionType.PACKAGE)
                     .gotoAction(ActionType.COMPLETED, () => {
+                        this.callbackCompleteOne();
                         this.reset();
                     });
                 break;
@@ -354,6 +403,8 @@ class GameScreen extends PIXI.Container {
 
         // Conveyor screen hints
         this.addChild(this.conveyorScreen);
+
+        this.addChild(this.boom);
     }
 
     private arrangeElements = () => {
@@ -389,6 +440,7 @@ class GameScreen extends PIXI.Container {
             form,
             taste,
             conveyorScreen,
+            boom,
         } = this;
 
         const W = app.renderer.width;
@@ -421,7 +473,11 @@ class GameScreen extends PIXI.Container {
         conveyorScreen.x = 107;
         conveyorScreen.y = 300;
 
-        const dropTop = 290;
+        boom.y = 430;
+        boom.x = 500;
+        boom.saveDefaults();
+
+        const dropTop = 288;
         dropForm.x = 630;
         dropForm.y = dropTop;
 
@@ -429,7 +485,7 @@ class GameScreen extends PIXI.Container {
         dropColor.y = dropTop;
 
         dropGlaze.x = 1338;
-        dropGlaze.y = dropTop + 32;
+        dropGlaze.y = dropTop + 37;
         dropGlaze.scale.set(0.7);
 
         taste.x = 1120;

@@ -53,7 +53,7 @@ class Drop extends PIXI.Sprite {
             onComplete: dropFlatten
         });
 
-        const dropFlatten = () => gsap.to(currentDrop.scale, {y: 0.2, x: 2, duration: 1, onComplete: vanish});
+        const dropFlatten = () => gsap.to(currentDrop.scale, {y: 0.2, x: 1.8, duration: 1, onComplete: vanish});
         const vanish = () => gsap.to(currentDrop, {alpha: 0, duration: 1, onComplete: finish});
         const finish = () => {
             currentDrop.restoreDefaults().resetAlpha().resetScale();

@@ -15,17 +15,11 @@ class Conveyor extends PIXI.TilingSprite {
     }
 
     public reset = () => {
-        gsap.fromTo(this.tilePosition,
-            {
-                x: Conveyor.TILE_WIDTH * 7
-            },
-            {
-                x: Conveyor.TILE_WIDTH * 12,
-                duration: 2,
-                onComplete: () => {
-                    this.tilePosition.x = 0;
-                }
-            })
+        while(this.tilePosition.x > 0) {
+            this.tilePosition.x -= Conveyor.TILE_WIDTH;
+        }
+
+        gsap.to(this.tilePosition, {x: 0, duration: 1,})
     }
 }
 

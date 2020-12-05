@@ -9,11 +9,18 @@ import Conveyor from "./Conveyor";
 import FormType from "../enums/FormType";
 
 class Form extends PIXI.Sprite {
+    static POS_FORM: number = 530;
+    static POS_COLOR: number = 800;
+    static POS_TASTE: number = 1020;
+    static POS_GLAZE: number = 1242;
+    static POS_PACKAGE: number = 1460;
+    static POS_COMPLETED: number = 1680;
+
     private readonly resByType: any = {};
 
     private resources!: string[];
     private stepSprites: SpriteCommon[] = [];
-    private view: any;
+    public view!: SpriteCommon;
 
     constructor() {
         super();
@@ -24,10 +31,14 @@ class Form extends PIXI.Sprite {
     public setForm = (type: ActionValue) => {
         // Map the ActionValue to FormType
         switch (type) {
-            case ActionValue.FORM_1: return this._setForm(FormType.TYPE_1);
-            case ActionValue.FORM_2: return this._setForm(FormType.TYPE_2);
-            case ActionValue.FORM_3: return this._setForm(FormType.TYPE_3);
-            case ActionValue.FORM_4: return this._setForm(FormType.TYPE_4);
+            case ActionValue.FORM_1:
+                return this._setForm(FormType.TYPE_1);
+            case ActionValue.FORM_2:
+                return this._setForm(FormType.TYPE_2);
+            case ActionValue.FORM_3:
+                return this._setForm(FormType.TYPE_3);
+            case ActionValue.FORM_4:
+                return this._setForm(FormType.TYPE_4);
         }
         return this;
     }
@@ -48,8 +59,6 @@ class Form extends PIXI.Sprite {
                 this.addChild(result);
                 return result;
             });
-
-        this.hideAll();
         return this;
     }
 
@@ -67,7 +76,7 @@ class Form extends PIXI.Sprite {
         switch (action) {
             case ActionType.FORM:
                 gsap.to(view, {
-                    x: 530, duration: Conveyor.DURATION, onComplete: () => {
+                    x: Form.POS_FORM, duration: Conveyor.DURATION, onComplete: () => {
                         this.syncWith(view);
                         onComplete && onComplete();
                     }
@@ -75,7 +84,7 @@ class Form extends PIXI.Sprite {
                 break;
             case ActionType.COLOR:
                 gsap.to(view, {
-                    x: 800, duration: Conveyor.DURATION, onComplete: () => {
+                    x: Form.POS_COLOR, duration: Conveyor.DURATION, onComplete: () => {
                         this.syncWith(view);
                         onComplete && onComplete();
                     }
@@ -83,7 +92,7 @@ class Form extends PIXI.Sprite {
                 break;
             case ActionType.TASTE:
                 gsap.to(view, {
-                    x: 1020, duration: Conveyor.DURATION, onComplete: () => {
+                    x: Form.POS_TASTE, duration: Conveyor.DURATION, onComplete: () => {
                         this.syncWith(view);
                         onComplete && onComplete();
                     }
@@ -91,7 +100,7 @@ class Form extends PIXI.Sprite {
                 break;
             case ActionType.GLAZE:
                 gsap.to(view, {
-                    x: 1250, duration: Conveyor.DURATION, onComplete: () => {
+                    x: Form.POS_GLAZE, duration: Conveyor.DURATION, onComplete: () => {
                         this.syncWith(view);
                         onComplete && onComplete();
                     }
@@ -99,7 +108,7 @@ class Form extends PIXI.Sprite {
                 break;
             case ActionType.PACKAGE:
                 gsap.to(view, {
-                    x: 1460, duration: Conveyor.DURATION, onComplete: () => {
+                    x: Form.POS_PACKAGE, duration: Conveyor.DURATION, onComplete: () => {
                         this.syncWith(view);
                         onComplete && onComplete();
                     }
@@ -107,12 +116,13 @@ class Form extends PIXI.Sprite {
                 break;
             case ActionType.COMPLETED:
                 gsap.to(view, {
-                    x: 1680, duration: Conveyor.DURATION, onComplete: () => {
+                    x: Form.POS_COMPLETED, duration: Conveyor.DURATION, onComplete: () => {
                         this.syncWith(view);
 
-                        gsap.to(view, {x:view.x-100, y:view.y-100, alpha: 0, duration: 3});
-
-                        onComplete && onComplete();
+                        // view.alpha = 1;
+                        gsap.to(view, {x: view.x - 100, y: view.y - 100, alpha: 0, duration: 3, onComplete: () => {
+                                onComplete && onComplete();
+                        }});
                     }
                 });
                 break;
@@ -157,8 +167,12 @@ class Form extends PIXI.Sprite {
     }
 
     private hideAll = (except?: SpriteCommon) => {
+
+        if (!!except)
+            except.alpha = 1;
+
         this.stepSprites.forEach(s => {
-            if (s !== except && s.alpha > 0)
+            if (s.alpha > 0 && s !== except)
                 gsap.to(s, {alpha: 0, duration: 0.2});
         });
     }

@@ -43,9 +43,6 @@ class ResourceList {
     static MACHINES = '../assets/machines.png';
     static WHEEL = '../assets/wheel.png';
 
-    static BOOM = '../assets/items/boom.png';
-    static BOOM_RESULT = '../assets/items/boom-result.png';
-
     static FORM_1_1 = '../assets/items/form-1-1.png';
     static FORM_1_2 = '../assets/items/form-1-2.png';
     static FORM_1_3 = '../assets/items/form-1-3.png';
@@ -71,6 +68,10 @@ class ResourceList {
     static PACKAGE_2 = '../assets/items/package-2.png';
     static PACKAGE_3 = '../assets/items/package-3.png';
     static PACKAGE_4 = '../assets/items/package-4.png';
+
+    static BOOM_NAME = 'boom'; // <- Not a resource! Only atlas name!
+    static BOOM = '../assets/boom/boom.json';
+    static BOOM_RESULT = '../assets/boom/boom-result.png';
 
     static CUSTOM_RESOURCES: string[] = [];
 
