@@ -45,12 +45,11 @@ class Boom extends SpriteCommon {
             this.removeChild(boom);
             this.addChild(result);
             result.scale.set(1);
-            gsap.fromTo(result, {alpha: 0}, {alpha: 1, duration: 3, onComplete: () => {
-                gsap.to(result, {alpha: 0.5, duration:1, onComplete: () => {
-                    // this.removeChild(result);
-                        onComplete();
-                    }});
-                }});
+            gsap.fromTo(result, {alpha: 0}, {
+                alpha: 1, duration: 3, onComplete: () => {
+                    onComplete();
+                }
+            });
         };
     }
 }

@@ -72,7 +72,7 @@ class GameScreen extends PIXI.Container {
 
     // region #Steps logic
     public set currentActionStep(value: ActionType) {
-        this.enableActions(value);
+        this.enableActions(value, ConveyorScreen.current.form);
     }
 
     // endregion
@@ -85,6 +85,26 @@ class GameScreen extends PIXI.Container {
     private readonly actionsTasteType: SpriteInteractive[];
     private readonly actionsGlazeType: SpriteInteractive[];
     private readonly actionsPackType: SpriteInteractive[];
+
+    private getActionByType = (value: ActionValue) => {
+        if (value === ActionValue.FORM_1) return this.actionForm1;
+        if (value === ActionValue.FORM_2) return this.actionForm2;
+        if (value === ActionValue.FORM_3 || value === ActionValue.FORM_4) return this.actionForm3;
+        if (value === ActionValue.COLOR_GRAY) return this.actionColorGray;
+        if (value === ActionValue.COLOR_GREEN) return this.actionColorGreen;
+        if (value === ActionValue.COLOR_PURPLE) return this.actionColorPurple;
+        if (value === ActionValue.TASTE_BUBBLE) return this.actionTasteBubble;
+        if (value === ActionValue.TASTE_MINT) return this.actionTasteMint;
+        if (value === ActionValue.TASTE_STRAW) return this.actionTasteStrawBanana;
+        if (value === ActionValue.TASTE_WATERMELON) return this.actionTasteWatermelon;
+        if (value === ActionValue.GLAZE_ON) return this.actionGlazeOn;
+        if (value === ActionValue.GLAZE_OFF) return this.actionGlazeOff;
+        if (value === ActionValue.PACK_1) return this.actionPackage1;
+        if (value === ActionValue.PACK_2) return this.actionPackage2;
+        if (value === ActionValue.PACK_3) return this.actionPackage3;
+        if (value === ActionValue.PACK_4) return this.actionPackage4;
+
+    }
     // endregion
 
     // region #Wrappers
@@ -129,7 +149,7 @@ class GameScreen extends PIXI.Container {
         this.arrangeElements();
         this.addEvents();
 
-        setTimeout(() => this.setActionControlsStep(ActionType.FORM), 500);
+        this.setActionControlsStep(ActionType.FORM);
     }
 
     private reset = () => {
@@ -152,9 +172,15 @@ class GameScreen extends PIXI.Container {
         this.actionsViewAll.forEach((s: SpriteInteractive) => s.enabled = false);
     }
 
-    private enableActions = (type: ActionType) => {
+    private enableActions = (type: ActionType, value?: ActionValue) => {
         this.disableActions();
         this.actionsViewByType[type].forEach((s: SpriteInteractive) => s.enabled = true);
+
+        if (!!value) { // Highlights actual action
+            const actionView = this.getActionByType(value);
+            this.actionsViewAll.forEach((s: SpriteInteractive) => s.blendMode = PIXI.BLEND_MODES.NORMAL);
+            actionView!.blendMode = PIXI.BLEND_MODES.ADD;
+        }
     }
 
     private getBoomPositionX = (type: ActionType, offset: number = 88): number => {
@@ -211,7 +237,7 @@ class GameScreen extends PIXI.Container {
             gsap.to(this.boom, {
                 x: Form.POS_COMPLETED + 88, y: this.boom.y - 3, duration: Conveyor.DURATION, onComplete: () => {
                     gsap.to(this.boom, {
-                        x: Form.POS_COMPLETED + 108, y: this.boom.y + 100, alpha: 0, onComplete: () => {
+                        x: Form.POS_COMPLETED + 136, y: this.boom.y + 150, alpha: 0, duration: 2.5, onComplete: () => {
                             this.callbackBoom();
                             this.reset();
                         }
@@ -261,7 +287,7 @@ class GameScreen extends PIXI.Container {
 
                             form.gotoAction(ActionType.COLOR, () => {
                                 // When form is under color tube, enable the next actions
-                                this.enableActions(ActionType.COLOR);
+                                this.enableActions(ActionType.COLOR, ConveyorScreen.current.color);
                             });
                         });
                     });
@@ -278,7 +304,7 @@ class GameScreen extends PIXI.Container {
                     form.setView(ActionType.COLOR)
                         .gotoAction(ActionType.TASTE, () => {
                             // Enable taste actions only after form is under taste tube
-                            this.enableActions(ActionType.TASTE);
+                            this.enableActions(ActionType.TASTE, ConveyorScreen.current.taste);
                         });
                 });
 
@@ -293,7 +319,7 @@ class GameScreen extends PIXI.Container {
                     form.setView(ActionType.TASTE)
                         .gotoAction(ActionType.GLAZE, () => {
                             // After form is under glaze tube, enable glaze actions
-                            this.enableActions(ActionType.GLAZE);
+                            this.enableActions(ActionType.GLAZE, ConveyorScreen.current.glaze);
                         });
                 })
                 break;
@@ -307,7 +333,7 @@ class GameScreen extends PIXI.Container {
 
                     form.setView(ActionType.GLAZE)
                         .gotoAction(ActionType.PACKAGE, () => {
-                            this.enableActions(ActionType.PACKAGE);
+                            this.enableActions(ActionType.PACKAGE, ConveyorScreen.current.pack);
                         });
                 }
 
@@ -398,13 +424,12 @@ class GameScreen extends PIXI.Container {
         this.addChild(this.conveyorLight);
 
         // Trash
-        this.addChild(this.trashOver);
         this.addChild(this.trashUnder);
+        this.addChild(this.boom);
+        this.addChild(this.trashOver);
 
         // Conveyor screen hints
         this.addChild(this.conveyorScreen);
-
-        this.addChild(this.boom);
     }
 
     private arrangeElements = () => {
