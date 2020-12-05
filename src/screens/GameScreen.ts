@@ -103,7 +103,7 @@ class GameScreen extends PIXI.Container {
         if (value === ActionValue.PACK_2) return this.actionPackage2;
         if (value === ActionValue.PACK_3) return this.actionPackage3;
         if (value === ActionValue.PACK_4) return this.actionPackage4;
-
+        return this.actionForm1;
     }
     // endregion
 
@@ -172,15 +172,16 @@ class GameScreen extends PIXI.Container {
         this.actionsViewAll.forEach((s: SpriteInteractive) => s.enabled = false);
     }
 
-    private enableActions = (type: ActionType, value?: ActionValue) => {
+    private enableActions = (type: ActionType, value: ActionValue) => {
         this.disableActions();
         this.actionsViewByType[type].forEach((s: SpriteInteractive) => s.enabled = true);
 
-        if (!!value) { // Highlights actual action
-            const actionView = this.getActionByType(value);
-            this.actionsViewAll.forEach((s: SpriteInteractive) => s.blendMode = PIXI.BLEND_MODES.NORMAL);
-            actionView!.blendMode = PIXI.BLEND_MODES.ADD;
-        }
+        // Highlights actual action
+        const actionView = this.getActionByType(value);
+        this.actionsViewAll.forEach((s: SpriteInteractive) => {
+            s.blendMode = PIXI.BLEND_MODES.NORMAL
+        });
+        actionView.blendMode = PIXI.BLEND_MODES.ADD;
     }
 
     private getBoomPositionX = (type: ActionType, offset: number = 88): number => {
@@ -356,6 +357,7 @@ class GameScreen extends PIXI.Container {
                 break;
         }
     }
+
 
     // endregion
 
@@ -534,6 +536,10 @@ class GameScreen extends PIXI.Container {
         actionColorGray.x = actionColorGreen.x + actionColorGreen.width + actionsGap;
         actionColorGray.y = actionColorGreen.y;
 
+        actionColorPurple.saveDefaults();
+        actionColorGreen.saveDefaults();
+        actionColorGray.saveDefaults();
+
         actionTasteStrawBanana.x = 670;
         actionTasteMint.x = actionTasteStrawBanana.x + actionTasteStrawBanana.width + actionsGap;
         actionTasteBubble.x = actionTasteStrawBanana.x;
@@ -545,12 +551,25 @@ class GameScreen extends PIXI.Container {
         actionGlazeOff.x = actionGlazeOn.x + actionGlazeOn.width + actionsGap;
         actionGlazeOff.y = actionGlazeOn.y;
 
+        actionTasteStrawBanana.saveDefaults();
+        actionTasteMint.saveDefaults();
+        actionTasteBubble.saveDefaults();
+        actionTasteWatermelon.saveDefaults();
+
+        actionGlazeOn.saveDefaults();
+        actionGlazeOff.saveDefaults();
+
         actionPackage1.x = 1140;
         actionPackage2.x = actionPackage1.x + actionPackage1.width + actionsGap;
         actionPackage3.x = actionPackage1.x;
         actionPackage3.y = actionPackage1.height + actionsGap;
         actionPackage4.x = actionPackage2.x;
         actionPackage4.y = actionPackage3.y;
+
+        actionPackage1.saveDefaults();
+        actionPackage2.saveDefaults();
+        actionPackage3.saveDefaults();
+        actionPackage4.saveDefaults();
     }
 
     private addEvents = () => {

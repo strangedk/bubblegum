@@ -24,7 +24,6 @@
   <component name="ChangeListManager">
     <list default="true" id="24bf3215-317a-49ee-a1f7-46be7723e795" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Boom.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Boom.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/GameScreen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/GameScreen.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -90,7 +89,7 @@
       <workItem from="1607064415387" duration="937000" />
       <workItem from="1607067892461" duration="1078000" />
       <workItem from="1607112627674" duration="3671000" />
-      <workItem from="1607122589804" duration="19170000" />
+      <workItem from="1607122589804" duration="22757000" />
     </task>
     <servers />
   </component>
