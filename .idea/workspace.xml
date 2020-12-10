@@ -24,6 +24,7 @@
   <component name="ChangeListManager">
     <list default="true" id="24bf3215-317a-49ee-a1f7-46be7723e795" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ConveyorScreen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ConveyorScreen.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/GameScreen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/GameScreen.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,7 +56,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="ts.external.directory.path" value="D:\mine\wsa\bubblegum\node_modules\typescript\lib" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.2.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -89,7 +90,10 @@
       <workItem from="1607064415387" duration="937000" />
       <workItem from="1607067892461" duration="1078000" />
       <workItem from="1607112627674" duration="3671000" />
-      <workItem from="1607122589804" duration="22757000" />
+      <workItem from="1607122589804" duration="24110000" />
+      <workItem from="1607273792899" duration="10000" />
+      <workItem from="1607633308999" duration="658000" />
+      <workItem from="1607634061252" duration="845000" />
     </task>
     <servers />
   </component>
@@ -121,10 +125,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="92" y="92" width="1256" height="676" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog/-1366.0.1366.728/0.0.1440.860@0.0.1440.860" timestamp="1607037912233" />
-    <state x="427" y="163" width="585" height="534" key="find.popup" timestamp="1606765646335">
+    <state x="427" y="163" width="585" height="534" key="find.popup" timestamp="1607633461149">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="427" y="163" width="585" height="534" key="find.popup/-1366.0.1366.728/0.0.1440.860@0.0.1440.860" timestamp="1606765646335" />
+    <state x="427" y="163" width="585" height="534" key="find.popup/-1366.0.1366.728/0.0.1440.860@0.0.1440.860" timestamp="1607633461149" />
     <state x="383" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1607173112104">
       <screen x="0" y="0" width="1440" height="860" />
     </state>

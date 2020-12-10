@@ -15,6 +15,7 @@ import Boom from "../components/Boom";
 import gsap from 'gsap';
 
 class GameScreen extends PIXI.Container {
+    static isNeedHighLightAction = true;
     // region #Resources
     // Actions form
     private readonly actionForm1: SpriteInteractive = new SpriteInteractive(ResourceList.ACTION_FORM_1);
@@ -153,7 +154,7 @@ class GameScreen extends PIXI.Container {
     }
 
     private reset = () => {
-        this.conveyorScreen.randomNext();
+        this.conveyorScreen.next();
         this.conveyorLine.reset();
         this.form.reset();
         this.setActionControlsStep(ActionType.FORM);
@@ -176,12 +177,14 @@ class GameScreen extends PIXI.Container {
         this.disableActions();
         this.actionsViewByType[type].forEach((s: SpriteInteractive) => s.enabled = true);
 
-        // Highlights actual action
-        const actionView = this.getActionByType(value);
-        this.actionsViewAll.forEach((s: SpriteInteractive) => {
-            s.blendMode = PIXI.BLEND_MODES.NORMAL
-        });
-        actionView.blendMode = PIXI.BLEND_MODES.ADD;
+        if (GameScreen.isNeedHighLightAction) {
+            // Highlights actual action
+            const actionView = this.getActionByType(value);
+            this.actionsViewAll.forEach((s: SpriteInteractive) => {
+                s.blendMode = PIXI.BLEND_MODES.NORMAL
+            });
+            actionView.blendMode = PIXI.BLEND_MODES.ADD;
+        }
     }
 
     private getBoomPositionX = (type: ActionType, offset: number = 88): number => {
