@@ -154,7 +154,7 @@ class GameScreen extends PIXI.Container {
     }
 
     private reset = () => {
-        this.conveyorScreen.next();
+        this.conveyorScreen.randomNext();
         this.conveyorLine.reset();
         this.form.reset();
         this.setActionControlsStep(ActionType.FORM);

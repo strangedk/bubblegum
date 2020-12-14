@@ -41,7 +41,7 @@ class ConveyorScreen extends PIXI.Sprite {
         });
 
         this.currentIndex = 0;
-        this.next();
+        this.randomNext();
     }
 
     public next = () => {
